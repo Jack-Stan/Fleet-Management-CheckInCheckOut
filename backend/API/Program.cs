@@ -15,6 +15,8 @@ internal class Program
 
         builder.Services.AddScoped<VoertuigService>();
         builder.Services.AddScoped<IVoertuigRepository, VoertuigRepository>();
+        builder.Services.AddScoped<BestuurderService>();
+        builder.Services.AddScoped<IBestuurderRepository, BestuurderRepository>();
         builder.Services.AddControllers();
 
         var app = builder.Build();

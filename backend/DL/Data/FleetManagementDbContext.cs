@@ -15,6 +15,7 @@ namespace DL.Data
         }
 
         public DbSet<Voertuig> Voertuigen { get; set; }
+        public DbSet<Bestuurder> Bestuurders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
