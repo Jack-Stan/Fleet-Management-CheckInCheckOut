@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./NavBar.css";
+import "../NavBar.css";
 
 const NavBar = () => {
   const location = useLocation(); // Verkrijg de huidige locatie

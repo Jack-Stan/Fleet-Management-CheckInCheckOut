@@ -4,7 +4,7 @@ import HomePage from "./pages/HomePage";
 import VoertuigenPage from "./pages/VoertuigenPage";
 import ChauffeursPage from "./pages/ChauffeursPage";
 import ReserveringenPage from "./pages/ReserveringenPage";
-import NavBar from "./comp/NavBar";
+import NavBar from "./navigation/NavBar";
 import "./App.css";
 
 function App() {
