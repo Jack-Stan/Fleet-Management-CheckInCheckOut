@@ -8,15 +8,32 @@ const VoertuigenPage = () => {
   const navigate = useNavigate();
   const [voertuigen, setVoertuigen] = useState([]);
 
-  // Functie om voertuigen op te halen
   const fetchVoertuigen = async () => {
-    try {
-      const response = await fetch("https://your-api-url/api/vehicles"); // Vervang dit door je API URL
-      const data = await response.json();
-      setVoertuigen(data);
-    } catch (error) {
-      console.error("Error fetching vehicles:", error);
-    }
+    // Dummy data
+    const dummyData = [
+      {
+        chassisNumber: "ABC123456",
+        make: "Tesla",
+        model: "Model S",
+        licensePlate: "1-ABC-123",
+        seats: 5,
+        doors: 4,
+        color: "Red",
+        fuelType: "Electric",
+      },
+      {
+        chassisNumber: "XYZ987654",
+        make: "BMW",
+        model: "X5",
+        licensePlate: "1-XYZ-987",
+        seats: 7,
+        doors: 5,
+        color: "Black",
+        fuelType: "Diesel",
+      },
+    ];
+
+    setVoertuigen(dummyData);
   };
 
   useEffect(() => {
@@ -25,10 +42,7 @@ const VoertuigenPage = () => {
 
   return (
     <div className="container mt-4">
-      {" "}
-      {/* Bootstrap container voor marge */}
       <h1>Voertuigen Overzicht</h1>
-      {/* Terug-knop */}
       <button className="btn btn-secondary mb-3" onClick={() => navigate(-1)}>
         Terug
       </button>
@@ -39,10 +53,9 @@ const VoertuigenPage = () => {
         Voeg Nieuw Voertuig Toe
       </button>
       <table className="table table-striped">
-        {" "}
-        {/* Bootstrap tabel met styling */}
         <thead>
           <tr>
+            <th>Chassisnummer</th>
             <th>Merk</th>
             <th>Model</th>
             <th>Kenteken</th>
@@ -55,6 +68,7 @@ const VoertuigenPage = () => {
           {voertuigen.length > 0 ? (
             voertuigen.map((voertuig) => (
               <tr key={voertuig.chassisNumber}>
+                <td>{voertuig.chassisNumber}</td>
                 <td>{voertuig.make}</td>
                 <td>{voertuig.model}</td>
                 <td>{voertuig.licensePlate}</td>
@@ -74,10 +88,9 @@ const VoertuigenPage = () => {
             ))
           ) : (
             <tr>
-              <td colSpan="6" className="text-center">
+              <td colSpan="7" className="text-center">
                 Geen voertuigen gevonden
-              </td>{" "}
-              {/* Geen voertuigen gevonden melding */}
+              </td>
             </tr>
           )}
         </tbody>
