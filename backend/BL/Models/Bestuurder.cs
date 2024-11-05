@@ -7,7 +7,9 @@ namespace BL.Models {
         public string RijbewijsType { get; set; } 
 
         public string? Bedrijfsnaam { get; set; } 
-        public string? BedrijfsBTW { get; set; } 
+        public string? BedrijfsBTW { get; set; }
+
+        public List<Reservering> Reserveringen { get; set; } = new List<Reservering>();
 
         public Bestuurder(string naam, DateTime geboortedatum, string rijbewijsNummer, string rijbewijsType, string? bedrijfsnaam = null, string? bedrijfsBTW = null) {
             Naam = naam;

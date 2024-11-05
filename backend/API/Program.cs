@@ -3,10 +3,9 @@ using BL.Services;
 using DL.Data;
 using DL.Repositories;
 using Microsoft.EntityFrameworkCore;
-internal class Program
-{
-    private static void Main(string[] args)
-    {
+
+internal class Program {
+    private static void Main(string[] args) {
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services.AddEndpointsApiExplorer();
@@ -17,13 +16,16 @@ internal class Program
         builder.Services.AddScoped<IVoertuigRepository, VoertuigRepository>();
         builder.Services.AddScoped<BestuurderService>();
         builder.Services.AddScoped<IBestuurderRepository, BestuurderRepository>();
+        builder.Services.AddScoped<ReserveringService>();
+        builder.Services.AddScoped<IReserveringRepository, ReserveringRepository>();
+
         builder.Services.AddControllers();
 
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
-        {
+            {
             app.UseSwagger();
             app.UseSwaggerUI();
         }

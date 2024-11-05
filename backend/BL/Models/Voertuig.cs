@@ -49,5 +49,7 @@ namespace BL.Models
         public string Kleur { get; set; }
         public int AantalZitplaatsen { get; set; }
         public int AantalDeuren { get; set; }
+
+        public List<Reservering> Reserveringen { get; set; } = new List<Reservering>();
     }
 }

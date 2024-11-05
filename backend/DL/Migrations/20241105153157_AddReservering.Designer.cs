@@ -4,6 +4,7 @@ using DL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DL.Migrations
 {
     [DbContext(typeof(FleetManagementDbContext))]
-    partial class FleetManagementDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241105153157_AddReservering")]
+    partial class AddReservering
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -146,17 +149,21 @@ namespace DL.Migrations
 
             modelBuilder.Entity("BL.Models.Reservering", b =>
                 {
-                    b.HasOne("BL.Models.Bestuurder", null)
+                    b.HasOne("BL.Models.Bestuurder", "Bestuurder")
                         .WithMany("Reserveringen")
                         .HasForeignKey("BestuurderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BL.Models.Voertuig", null)
+                    b.HasOne("BL.Models.Voertuig", "Voertuig")
                         .WithMany("Reserveringen")
                         .HasForeignKey("VoertuigId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Bestuurder");
+
+                    b.Navigation("Voertuig");
                 });
 
             modelBuilder.Entity("BL.Models.Bestuurder", b =>
