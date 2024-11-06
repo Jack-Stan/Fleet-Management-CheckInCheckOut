@@ -4,8 +4,7 @@ namespace BL.Models {
         public string Naam { get; set; }
         public DateTime Geboortedatum { get; set; }
         public string RijbewijsNummer { get; set; }
-        public string RijbewijsType { get; set; } 
-
+        public string RijbewijsType { get; set; }
         public string? Bedrijfsnaam { get; set; } 
         public string? BedrijfsBTW { get; set; }
 
