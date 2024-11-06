@@ -2,7 +2,9 @@ using BL.Interfaces;
 using BL.Services;
 using DL.Data;
 using DL.Repositories;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.RateLimiting;
 
 internal class Program {
     private static void Main(string[] args) 
@@ -15,7 +17,7 @@ internal class Program {
 
         #region Databank config
 
-        builder.Services.AddDbContext<FleetManagementDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Test")));
+        builder.Services.AddDbContext<FleetManagementDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Docker")));
 
         #endregion
 
@@ -47,6 +49,38 @@ internal class Program {
 
         #endregion
 
+        #region Rate Limiter
+
+        builder.Services.AddRateLimiter(options =>
+        {
+            options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpcontext => RateLimitPartition.GetFixedWindowLimiter(
+                partitionKey: httpcontext.User.Identity?.Name ?? httpcontext.Request.Headers.Host.ToString(),
+                factory: partition => new FixedWindowRateLimiterOptions
+                {
+                    AutoReplenishment = true,
+                    PermitLimit = 50,
+                    QueueLimit = 0,
+                    Window = TimeSpan.FromSeconds(1)
+                }));
+            options.RejectionStatusCode = 429;
+            options.OnRejected = async (context, token) =>
+            {
+                context.HttpContext.Response.StatusCode = 429;
+                if (context.Lease.TryGetMetadata(MetadataName.RetryAfter, out var retryAfter))
+                {
+                    await context.HttpContext.Response.WriteAsync(
+                        $"Too many requests", cancellationToken: token);
+                }
+                else
+                {
+                    await context.HttpContext.Response.WriteAsync(
+                        $"Too many requests");
+                }
+            };
+        });
+
+        #endregion
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -59,6 +93,8 @@ internal class Program {
         app.UseHttpsRedirection();
 
         app.UseAuthorization();
+
+        app.UseRateLimiter();
 
         app.UseCors(policyName);
 
