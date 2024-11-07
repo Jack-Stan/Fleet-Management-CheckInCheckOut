@@ -11,6 +11,7 @@ internal class Program {
     {
         var builder = WebApplication.CreateBuilder(args);
 
+
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.AddControllers();
@@ -43,6 +44,7 @@ internal class Program {
                 {
                     builder
                     .WithOrigins("http://localhost:3000")
+                    .AllowAnyMethod()
                     .AllowAnyHeader();
                 });
         });
@@ -58,7 +60,7 @@ internal class Program {
                 factory: partition => new FixedWindowRateLimiterOptions
                 {
                     AutoReplenishment = true,
-                    PermitLimit = 50,
+                    PermitLimit = 10,
                     QueueLimit = 0,
                     Window = TimeSpan.FromSeconds(1)
                 }));
@@ -68,6 +70,7 @@ internal class Program {
                 context.HttpContext.Response.StatusCode = 429;
                 if (context.Lease.TryGetMetadata(MetadataName.RetryAfter, out var retryAfter))
                 {
+                    context.HttpContext.Response.Headers["Retry-After"] = retryAfter.ToString();
                     await context.HttpContext.Response.WriteAsync(
                         $"Too many requests", cancellationToken: token);
                 }
@@ -82,6 +85,42 @@ internal class Program {
         #endregion
 
         var app = builder.Build();
+
+
+        #region Headers
+
+        var headers = new Dictionary<string, string>()
+        {
+                {"X-Frame-Options", "DENY" },
+                {"X-Xss-Protection", "1; mode=block"},
+                {"X-Content-Type-Options", "nosniff"},
+                {"Referrer-Policy", "no-referrer"},
+                {"X-Permitted-Cross-Domain-Policies", "none"},
+                {"Permissions-Policy", "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"},
+                /*{"Content-Security-Policy", builder.Environment.IsDevelopment() ?
+                    "default-src 'self' http://localhost:3000" : 
+                    }*/
+        };
+
+        if (!builder.Environment.IsDevelopment())
+        {
+            app.UseHsts();
+        }
+
+        app.Use(async (context, next) =>
+        {
+            foreach (var keyValue in headers)
+            {
+                if (!context.Response.Headers.ContainsKey(keyValue.Key))
+                {
+                    context.Response.Headers.Append(keyValue.Key, keyValue.Value);
+                }
+            }
+
+            await next(context);
+        });
+
+        #endregion
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
