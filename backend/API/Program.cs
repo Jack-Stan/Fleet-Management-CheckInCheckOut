@@ -47,7 +47,7 @@ internal class Program {
         {
             // can't add this due to Github secrets
             options.AddBlobServiceClient(builder.Configuration.GetConnectionString("Storage"));
-        });
+        }); 
 
         #endregion
 
