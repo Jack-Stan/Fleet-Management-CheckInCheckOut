@@ -1,3 +1,4 @@
+using API.Mappers;
 using BL.Interfaces;
 using BL.Services;
 using DL.Data;
@@ -31,6 +32,12 @@ internal class Program {
         #region Databank config
 
         builder.Services.AddDbContext<FleetManagementDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Docker")));
+
+        #endregion
+
+        #region Automapper config
+
+        builder.Services.AddAutoMapper(typeof(MappingProfile));
 
         #endregion
 
