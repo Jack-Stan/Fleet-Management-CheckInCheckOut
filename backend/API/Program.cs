@@ -4,6 +4,7 @@ using DL.Data;
 using DL.Repositories;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Azure;
 using System.Threading.RateLimiting;
 
 internal class Program {
@@ -11,18 +12,11 @@ internal class Program {
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        #region Services
 
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.AddControllers();
-
-        #region Databank config
-
-        builder.Services.AddDbContext<FleetManagementDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Docker")));
-
-        #endregion
-
-        #region Services
 
         builder.Services.AddScoped<VoertuigService>();
         builder.Services.AddScoped<IVoertuigRepository, VoertuigRepository>();
@@ -30,6 +24,23 @@ internal class Program {
         builder.Services.AddScoped<IBestuurderRepository, BestuurderRepository>();
         builder.Services.AddScoped<ReserveringService>();
         builder.Services.AddScoped<IReserveringRepository, ReserveringRepository>();
+        builder.Services.AddScoped<StorageService>();
+
+        #endregion
+
+        #region Databank config
+
+        builder.Services.AddDbContext<FleetManagementDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Docker")));
+
+        #endregion
+
+        #region Azure storage config
+
+        builder.Services.AddAzureClients(options =>
+        {
+            // can't add this due to Github secrets
+            options.AddBlobServiceClient(builder.Configuration.GetConnectionString("Storage"));
+        });
 
         #endregion
 
@@ -85,7 +96,6 @@ internal class Program {
         #endregion
 
         var app = builder.Build();
-
 
         #region Headers
 
