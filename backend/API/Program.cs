@@ -1,3 +1,4 @@
+using API.Mappers;
 using BL.Interfaces;
 using BL.Services;
 using DL.Data;
@@ -34,13 +35,19 @@ internal class Program {
 
         #endregion
 
+        #region Automapper config
+
+        builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+        #endregion
+
         #region Azure storage config
 
         builder.Services.AddAzureClients(options =>
         {
             // can't add this due to Github secrets
             options.AddBlobServiceClient(builder.Configuration.GetConnectionString("Storage"));
-        });
+        }); 
 
         #endregion
 
