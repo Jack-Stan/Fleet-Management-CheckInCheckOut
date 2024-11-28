@@ -16,11 +16,18 @@ function VoertuigPage() {
   });
   const [error, setError] = useState(null);
   const [showForm, setShowForm] = useState(false);
-
+  const [presetOptions, setPresetOptions] = useState([]);
+  
   useEffect(() => {
+    // Haal voertuigen op
     axios.get('/api/voertuigen')
       .then(response => setVehicles(response.data))
       .catch(error => setError("Er is een fout opgetreden bij het ophalen van voertuigen."));
+
+    // Haal presets op (kan worden vervangen door een specifieke API voor presets)
+    axios.get('/api/voertuig-presets')
+      .then(response => setPresetOptions(response.data))
+      .catch(error => setError("Er is een fout opgetreden bij het ophalen van presets."));
   }, []);
 
   const handleInputChange = (e) => {
@@ -29,6 +36,20 @@ function VoertuigPage() {
       ...newVehicle,
       [name]: value
     });
+  };
+
+  const handlePresetChange = (e) => {
+    const selectedPreset = presetOptions.find(preset => preset.id === e.target.value);
+    if (selectedPreset) {
+      setNewVehicle({
+        ...newVehicle,
+        model: selectedPreset.model,
+        brand: selectedPreset.brand,
+        fuelType: selectedPreset.fuelType,
+        vehicleType: selectedPreset.vehicleType,
+        color: selectedPreset.color,
+      });
+    }
   };
 
   const handleAddVehicle = (e) => {
@@ -72,6 +93,17 @@ function VoertuigPage() {
       {showForm && (
         <form onSubmit={handleAddVehicle} className="add-vehicle-form">
           <h2>Voertuig Toevoegen</h2>
+          
+          <div>
+            <label>Selecteer Preset:</label>
+            <select onChange={handlePresetChange} value={newVehicle.model}>
+              <option value="">Kies een preset</option>
+              {presetOptions.map(preset => (
+                <option key={preset.id} value={preset.id}>{preset.brand} - {preset.model}</option>
+              ))}
+            </select>
+          </div>
+
           <div>
             <label>Model:</label>
             <input
