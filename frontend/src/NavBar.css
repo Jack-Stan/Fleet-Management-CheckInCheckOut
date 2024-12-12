@@ -1,0 +1,46 @@
+/* NavBar.css */
+.navbar {
+  margin-bottom: 20px;
+  background-color: #f8c3d1;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px 20px;
+}
+
+.nav-link {
+  color: #333333;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #ff6f61;
+  text-decoration: underline;
+}
+
+.navbar-brand {
+  color: #333333;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.navbar-brand:hover {
+  color: #ff6f61;
+}
+
+.navbar-toggler {
+  border-color: rgba(51, 51, 51, 0.5);
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30' fill='darkgrey'%3E%3Cpath stroke='darkgrey' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E"); /* Pas de kleur van het toggler-icoon aan naar donkergrijs */
+}
+
+.nav-item {
+  margin-right: 15px;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 10px;
+  }
+}
