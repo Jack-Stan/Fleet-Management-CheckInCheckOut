@@ -14,6 +14,7 @@ namespace DL.Data {
         public DbSet<Voertuig> Voertuigen { get; set; }
         public DbSet<Bestuurder> Bestuurders { get; set; }
         public DbSet<Reservering> Reserveringen { get; set; }
+        public DbSet<Gebruiker> Gebruikers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             base.OnModelCreating(modelBuilder);
@@ -27,6 +28,18 @@ namespace DL.Data {
                 .HasOne<Voertuig>()
                 .WithMany(v => v.Reserveringen)
                 .HasForeignKey(r => r.VoertuigId);
+
+            modelBuilder.Entity<Gebruiker>()
+                .HasKey(g => g.Id);
+
+            modelBuilder.Entity<Gebruiker>()
+                .Property(g => g.Email)
+                .IsRequired()
+                .HasMaxLength(100);
+
+            modelBuilder.Entity<Gebruiker>()
+                .Property(g => g.WachtwoordHash)
+                .IsRequired();
         }
     }
 }
