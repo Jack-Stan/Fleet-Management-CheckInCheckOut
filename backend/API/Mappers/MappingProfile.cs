@@ -3,7 +3,6 @@ using BL.Models;
 using BL.Models.DTO;
 using BL.Models.DTO.Input;
 using BL.Models.DTO.Output;
-using BL.Models.DTO;
 
 namespace API.Mappers
 {
@@ -29,6 +28,9 @@ namespace API.Mappers
             CreateMap<CheckInDTO, Reservering>()
                 .ForMember(dest => dest.CheckInState, opt => opt.MapFrom(src => src.CheckInState))
                 .ForMember(dest => dest.CheckInPictures, opt => opt.Ignore());
+
+            CreateMap<GebruikerInputDTO, Gebruiker>();
+            CreateMap<Gebruiker, GebruikerOutputDTO>();
         }
     }
 }
