@@ -35,7 +35,7 @@ const NavBar = () => {
                 className={`nav-link ${location.pathname === "/voertuigen" ? "active" : ""}`}
                 to="/voertuigen"
               >
-                Bekijk Voertuigen
+                Voertuigen
               </Link>
             </li>
             <li className="nav-item">
@@ -43,7 +43,7 @@ const NavBar = () => {
                 className={`nav-link ${location.pathname === "/chauffeurs" ? "active" : ""}`}
                 to="/chauffeurs"
               >
-                Bekijk Chauffeurs
+                Chauffeurs
               </Link>
             </li>
             <li className="nav-item">
@@ -51,7 +51,15 @@ const NavBar = () => {
                 className={`nav-link ${location.pathname === "/reserveringen" ? "active" : ""}`}
                 to="/reserveringen"
               >
-                Bekijk Reserveringen
+                Reserveringen
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                className={`nav-link ${location.pathname === "/login" ? "active" : ""}`}
+                to="/login"
+              >
+                Login
               </Link>
             </li>
           </ul>

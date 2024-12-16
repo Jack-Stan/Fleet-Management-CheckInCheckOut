@@ -255,3 +255,63 @@ tr:hover {
     text-align: center;
   }
 }
+.home-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.calendar-container {
+  width: 100%;
+  max-width: 1000px; /* Zorgt ervoor dat de kalender niet te breed wordt */
+  margin-bottom: 20px; /* Ruimte tussen kalender en knoppen */
+}
+
+.quick-actions {
+  display: flex;
+  justify-content: space-between; /* Verdeel de knoppen gelijkmatig */
+  width: 100%;
+  max-width: 1000px; /* Zelfde breedte als de kalender */
+  padding: 10px 20px;
+}
+
+.quick-actions button {
+  font-size: 16px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.quick-actions button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+.quick-actions button.primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.quick-actions button.success {
+  background-color: #28a745;
+  color: white;
+}
+
+.quick-actions button.warning {
+  background-color: #ffc107;
+  color: white;
+}
+
+.quick-actions button.danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+.error-message {
+  color: red;
+  font-weight: bold;
+}
