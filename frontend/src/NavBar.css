@@ -1,46 +1,81 @@
-/* NavBar.css */
-.navbar {
-  margin-bottom: 20px;
-  background-color: #f8c3d1;
-  border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+/* Zorgt ervoor dat de navbar niet over de volledige breedte gaat */
+.navbar-container {
+  max-width: 1000px; /* Maak de navbar smaller */
+  margin: 0 auto;    /* Centreer horizontaal */
+  border-radius: 15px; /* Afronde hoeken behouden */
+  padding: 0 15px;   /* Voeg padding toe aan de linker- en rechterkant */
+}
+
+/* Donker thema met een grijze achtergrond */
+.dark-theme {
+  background-color: #444444; /* Grijze kleur voor de achtergrond */
+  color: #ffffff;            /* Witte tekst voor leesbaarheid */
+  border-radius: 15px;       /* Optioneel: afgeronde hoeken */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Subtiele schaduw */
   padding: 10px 20px;
 }
 
+/* Navbar algemene styling */
+.navbar {
+  background-color: #333333; /* Donkergrijze achtergrond voor navbar */
+  padding: 15px 0; /* Ruimte boven en onder de links */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* Schaduw voor subtiele diepte */
+}
+
 .nav-link {
-  color: #333333;
-  transition: color 0.3s ease;
+  color: #dcdcdc; /* Lichtgrijze tekst voor de links */
+  font-size: 1.1rem; /* Vergroten van de tekst voor betere zichtbaarheid */
+  transition: color 0.3s ease, transform 0.3s ease; /* Animeren van tekstkleur en grootte */
+  padding: 10px 15px;
 }
 
 .nav-link:hover {
-  color: #ff6f61;
-  text-decoration: underline;
+  color: #ff6f61; /* Oranje kleur bij hover */
+  text-decoration: none; /* Verwijder onderlijning */
+  transform: scale(1.1); /* Vergroot de tekst tijdens hover voor extra focus */
 }
 
-.navbar-brand {
-  color: #333333;
-  font-weight: bold;
-  transition: color 0.3s ease;
+.nav-link.active {
+  color: #ff6f61; /* Oranje kleur voor de actieve link */
+  font-weight: bold; /* Vetgedrukte tekst voor de actieve pagina */
 }
 
-.navbar-brand:hover {
-  color: #ff6f61;
+/* Hover effect voor navbar items */
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30' fill='white'%3E%3Cpath stroke='white' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
 }
 
+/* Nav items ruimte toevoegen */
+.nav-item {
+  margin-right: 20px; /* Verhoogde ruimte tussen items */
+}
+
+/* Active link effect voor focus */
+.navbar-nav .nav-item:focus-within .nav-link {
+  color: #ff6f61; /* Kleur bij focus (bijvoorbeeld na klikken) */
+}
+
+/* Navbar toggle knop aanpassen voor mobiel */
 .navbar-toggler {
-  border-color: rgba(51, 51, 51, 0.5);
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
 .navbar-toggler-icon {
-  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30' fill='darkgrey'%3E%3Cpath stroke='darkgrey' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E"); /* Pas de kleur van het toggler-icoon aan naar donkergrijs */
+  background-color: #ffffff;
 }
 
-.nav-item {
-  margin-right: 15px;
-}
-
+/* Voor kleinere schermen, optimalisatie van de navbar */
 @media (max-width: 768px) {
-  .navbar {
-    padding: 10px;
+  .navbar-nav {
+    text-align: center; /* Center de links op mobiele schermen */
+  }
+  
+  .navbar-container {
+    padding: 5px 10px; /* Wat minder padding voor kleinere schermen */
+  }
+
+  .nav-item {
+    margin-right: 0;
+    margin-bottom: 10px; /* Spatie tussen de items voor mobiel */
   }
 }

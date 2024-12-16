@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import '../App.css'; // Zorg ervoor dat je App.css import vanuit dezelfde map
 
 function HomePage() {
   const [vehicles, setVehicles] = useState([]);
@@ -12,16 +13,29 @@ function HomePage() {
   }, []);
 
   return (
-    <div className="page-container">
-      <h1>Home Pagina</h1>
+    <div className="home-page page-container">
+      <div className="container-header">
+        <h1>Voertuigen</h1>
+        <button>Nieuw Voertuig</button>
+      </div>
+
       {error && <div className="error-message">{error}</div>}
+      
       <div className="vehicle-list">
-        {vehicles.map(vehicle => (
-          <div key={vehicle.chassisNumber} className="vehicle-item">
-            <h3>{vehicle.model}</h3>
-            <p>{vehicle.brand}</p>
-          </div>
-        ))}
+        {vehicles.length > 0 ? (
+          vehicles.map(vehicle => (
+            <div key={vehicle.chassisNumber} className="vehicle-item">
+              <h3>{vehicle.model}</h3>
+              <p>{vehicle.brand}</p>
+              <div className="details">
+                <p><strong>Chassis nummer:</strong> {vehicle.chassisNumber}</p>
+                <p><strong>Prijs per dag:</strong> €{vehicle.pricePerDay}</p>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p>Geen voertuigen beschikbaar.</p>
+        )}
       </div>
     </div>
   );

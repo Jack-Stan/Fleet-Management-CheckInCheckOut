@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import '../App.css';  // Zorg ervoor dat dit geïmporteerd is
 
 function ReserveringenPage() {
   const [reservations, setReservations] = useState([]);
@@ -15,6 +16,7 @@ function ReserveringenPage() {
     <div className="page-container">
       <h1>Reserveringen Pagina</h1>
       {error && <div className="error-message">{error}</div>}
+
       <div className="reservation-list">
         {reservations.map(reservation => (
           <div key={reservation.id} className="reservation-item">

@@ -1,14 +1,14 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../NavBar.css";
+import "../NavBar.css";  // Zorg ervoor dat NavBar.css correct wordt geïmporteerd
 
 const NavBar = () => {
-  const location = useLocation(); // Verkrijg de huidige locatie
+  const location = useLocation();  // Huidige URL ophalen
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div className="container-fluid">
+      <div className="navbar-container">
         <button
           className="navbar-toggler"
           type="button"
@@ -24,9 +24,7 @@ const NavBar = () => {
           <ul className="navbar-nav">
             <li className="nav-item">
               <Link
-                className={`nav-link ${
-                  location.pathname === "/" ? "active" : ""
-                }`}
+                className={`nav-link ${location.pathname === "/" ? "active" : ""}`}
                 to="/"
               >
                 Home
@@ -34,9 +32,7 @@ const NavBar = () => {
             </li>
             <li className="nav-item">
               <Link
-                className={`nav-link ${
-                  location.pathname === "/voertuigen" ? "active" : ""
-                }`}
+                className={`nav-link ${location.pathname === "/voertuigen" ? "active" : ""}`}
                 to="/voertuigen"
               >
                 Bekijk Voertuigen
@@ -44,9 +40,7 @@ const NavBar = () => {
             </li>
             <li className="nav-item">
               <Link
-                className={`nav-link ${
-                  location.pathname === "/chauffeurs" ? "active" : ""
-                }`}
+                className={`nav-link ${location.pathname === "/chauffeurs" ? "active" : ""}`}
                 to="/chauffeurs"
               >
                 Bekijk Chauffeurs
@@ -54,9 +48,7 @@ const NavBar = () => {
             </li>
             <li className="nav-item">
               <Link
-                className={`nav-link ${
-                  location.pathname === "/reserveringen" ? "active" : ""
-                }`}
+                className={`nav-link ${location.pathname === "/reserveringen" ? "active" : ""}`}
                 to="/reserveringen"
               >
                 Bekijk Reserveringen

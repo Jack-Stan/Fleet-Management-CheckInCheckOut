@@ -6,7 +6,7 @@ import ChauffeursPage from "./pages/ChauffeursPage";
 import ReserveringenPage from "./pages/ReserveringenPage";
 import VoertuigenDetailsPage from "./pages/VoertuigenDetailsPage";
 import NavBar from "./navigation/NavBar";
-import "./style.css"; // Importeer de stylesheet
+
 
 function App() {
   return (

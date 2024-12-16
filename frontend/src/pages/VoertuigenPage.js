@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import '../App.css';  // <-- Import hier toevoegen
 
 function VoertuigPage() {
   const [vehicles, setVehicles] = useState([]);
