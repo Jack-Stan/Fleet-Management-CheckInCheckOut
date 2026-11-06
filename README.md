@@ -1,4 +1,37 @@
 # Fleet-Management-CheckInCheckOut
+
+## Backend configuration (secrets)
+
+`backend/API/appsettings.json` does **not** contain secrets. Supply them through configuration
+overrides; ASP.NET Core maps environment variables with `__` onto the `:` sections automatically:
+
+| Setting | Environment variable | Notes |
+|---|---|---|
+| `ConnectionStrings:Docker` | `ConnectionStrings__Docker` | SQL Server connection string incl. password. Required; the API refuses to start without it. |
+| `ConnectionStrings:Storage` | `ConnectionStrings__Storage` | Azure Blob Storage connection string. |
+| `JwtSettings:SecretKey` | `JwtSettings__SecretKey` | JWT signing key, at least 32 bytes (HS256). Required; the API refuses to start without it. |
+
+Issuer, Audience and ExpiresInMinutes stay in `appsettings.json` (not secret).
+
+Example (bash, local dev):
+
+```bash
+export ConnectionStrings__Docker="Data Source=localhost,1433;Initial Catalog=<database>;User ID=sa;Password=<your-local-password>;TrustServerCertificate=True"
+export JwtSettings__SecretKey="$(openssl rand -base64 48)"
+dotnet run --project backend/API
+```
+
+Or with user-secrets (kept outside the repo):
+
+```bash
+cd backend/API
+dotnet user-secrets init
+dotnet user-secrets set "ConnectionStrings:Docker" "<connection string>"
+dotnet user-secrets set "JwtSettings:SecretKey" "<random key, 32+ bytes>"
+```
+
+For Docker / docker-compose, pass the same variables with `-e` or an `env_file` that is not committed.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

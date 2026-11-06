@@ -38,8 +38,16 @@ internal class Program {
 
         #region Databank config
 
+        // Secrets are not stored in appsettings.json. Supply them via environment variables
+        // (ConnectionStrings__Docker, JwtSettings__SecretKey) or dotnet user-secrets.
+        var dockerConnectionString = builder.Configuration.GetConnectionString("Docker");
+        if (string.IsNullOrWhiteSpace(dockerConnectionString))
+            throw new InvalidOperationException(
+                "ConnectionStrings:Docker is not configured. Set the ConnectionStrings__Docker environment variable " +
+                "(or use 'dotnet user-secrets set \"ConnectionStrings:Docker\" \"...\"').");
+
         builder.Services.AddDbContext<FleetManagementDbContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("Docker")));
+            options.UseSqlServer(dockerConnectionString));
 
         #endregion
 
@@ -103,6 +111,11 @@ internal class Program {
         #region JWT Config
 
         var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+        var jwtSecretKey = jwtSettings["SecretKey"];
+        if (string.IsNullOrWhiteSpace(jwtSecretKey) || Encoding.UTF8.GetByteCount(jwtSecretKey) < 32)
+            throw new InvalidOperationException(
+                "JwtSettings:SecretKey is not configured or shorter than 32 bytes (HS256 needs at least 256 bits). " +
+                "Set the JwtSettings__SecretKey environment variable (or use dotnet user-secrets).");
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options => {
                 options.TokenValidationParameters = new TokenValidationParameters {
@@ -112,7 +125,7 @@ internal class Program {
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = jwtSettings["Issuer"],
                     ValidAudience = jwtSettings["Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecretKey))
                 };
             });
 
